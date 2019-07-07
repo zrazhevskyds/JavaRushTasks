@@ -4,18 +4,17 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
-/* 
+/*
 Читаем и пишем в файл: Human
 */
 public class Solution {
     public static void main(String[] args) {
         //исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
         try {
-            File your_file_name = File.createTempFile("D:\\test.txt", null);
-            OutputStream outputStream = new FileOutputStream("D:\\test.txt");
-            InputStream inputStream = new FileInputStream("D:\\test.txt");
+            File your_file_name = File.createTempFile("c:/tmp/xxxxx.xxx", null);
+            OutputStream outputStream = new FileOutputStream(your_file_name);
+            InputStream inputStream = new FileInputStream(your_file_name);
 
             Human ivanov = new Human("Ivanov", new Asset("home", 999_999.99), new Asset("car", 2999.99));
             ivanov.save(outputStream);
@@ -26,13 +25,11 @@ public class Solution {
             inputStream.close();
             //check here that ivanov equals to somePerson - проверьте тут, что ivanov и somePerson равны
 
-                System.out.println(ivanov.equals(somePerson));
-
         } catch (IOException e) {
             //e.printStackTrace();
             System.out.println("Oops, something wrong with my file");
         } catch (Exception e) {
-            //e.printStackTrace();
+            // e.printStackTrace();
             System.out.println("Oops, something wrong with save/load method");
         }
     }
@@ -57,7 +54,7 @@ public class Solution {
             if (o == null || getClass() != o.getClass()) return false;
 
             Human human = (Human) o;
-            System.out.println(assets.equals(human.assets));
+
             if (name != null ? !name.equals(human.name) : human.name != null) return false;
             return assets != null ? assets.equals(human.assets) : human.assets == null;
         }
@@ -70,28 +67,45 @@ public class Solution {
         }
 
         public void save(OutputStream outputStream) throws Exception {
-
-            outputStream.write(this.name.getBytes());
-            outputStream.write(System.lineSeparator().getBytes());
-            if (assets.isEmpty()){
-                outputStream.write("empty".getBytes());
-            }else{
-                for (int i = 0; i < assets.size(); i++) {
-                    outputStream.write((assets.get(i).getName() + ':' + assets.get(i).getPrice()).getBytes());
-                    if (i != assets.size() - 1)
-                        outputStream.write(',');
+            //implement this method - реализуйте этот метод
+            PrintWriter printWriter = new PrintWriter(outputStream);
+            printWriter.println((name==null)?"N":"Y");
+            printWriter.flush();
+            if ( name!=null ) {
+                printWriter.println(name);
+                printWriter.flush();
+                printWriter.println(Integer.toString(assets.size()));
+                printWriter.flush();
+                for (Asset asset:assets) {
+                    printWriter.println(asset.getName());
+                    printWriter.println(Double.toString(asset.getPrice()));
+                    printWriter.flush();
                 }
             }
+            printWriter.close();
         }
 
         public void load(InputStream inputStream) throws Exception {
-            Scanner f = new Scanner(inputStream);
-            this.name = f.nextLine();
-            String str = f.nextLine();
-            if (!str.equals("empty")){
-                String[] as = str.split(",");
-                assets.add(new Asset(as[0].split(":")[0], Double.parseDouble(as[0].split(":")[1])));
+            //implement this method - реализуйте этот метод
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String isHuman = bufferedReader.readLine();
+
+            if ( isHuman.equals("Y")) {
+                String sName = bufferedReader.readLine();
+                List<Asset> loadAssets = new ArrayList<>();
+                int count = Integer.parseInt(bufferedReader.readLine());
+                for (int i = 0; i < count; i++) {
+                    String nameAsset = bufferedReader.readLine();
+                    double priceAsset = Double.parseDouble(bufferedReader.readLine());
+                    loadAssets.add(new Asset(nameAsset, priceAsset));
+                }
+                //--- успех чтения и преобразования данных - не выбило по Exception
+                name = sName;
+                assets = loadAssets;
             }
+
+            bufferedReader.close();
         }
     }
 }

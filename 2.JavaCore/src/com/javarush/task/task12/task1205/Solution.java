@@ -14,6 +14,7 @@ public class Solution {
 
     public static String getObjectType(Object o) {
         String name = null;
+
         switch (o.getClass().getSimpleName()){
             case "Cow":
                 name = "Корова";

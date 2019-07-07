@@ -10,12 +10,13 @@ public class Solution {
 
     public static void main(String[] args) throws InterruptedException {
         Politician ivanov = new Politician("Иванов");
+        ivanov.join();
         Politician petrov = new Politician("Петров");
         Politician sidorov = new Politician("Сидоров");
 
         while (ivanov.getCountSpeeches() + petrov.getCountSpeeches() + sidorov.getCountSpeeches() < totalCountSpeeches) {
         }
-        ivanov.join();
+
         System.out.println(ivanov);
         System.out.println(petrov);
         System.out.println(sidorov);

@@ -5,6 +5,8 @@ public class Computer {
     private Mouse mouse;
     private Monitor monitor;
 
+
+
     public Computer(Keyboard keyboard, Mouse mouse, Monitor monitor) {
         this.keyboard = keyboard;
         this.mouse = mouse;

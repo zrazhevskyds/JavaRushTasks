@@ -22,9 +22,9 @@ public class Solution {
         list.add("ирис");
         list.add("картофель");
 
-        for (String x : list){
-            System.out.println(x);
-        }
+       for (String lst: list){
+           System.out.println(lst);
+       }
 
     }
 }

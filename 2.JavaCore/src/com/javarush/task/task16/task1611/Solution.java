@@ -9,7 +9,7 @@ public class Solution {
 
     public static void main(String[] args) throws InterruptedException {
         Clock clock = new Clock();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         isStopped = true;
         System.out.println("Clock has to be stopped");
         Thread.sleep(2000);

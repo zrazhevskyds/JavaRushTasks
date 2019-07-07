@@ -1,5 +1,6 @@
 package com.javarush.task.task08.task0806;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,8 @@ public class Solution {
         map.put("Gevey", '6');
         map.put("Hugs", 111111111111L);
         map.put("Comp", (double) 123);
-
+        Date asd = new Date();
+        System.out.println("Current date: " + asd);
         for (Map.Entry<String, Object> pair : map.entrySet())
             System.out.println(pair.getKey() + " - " + pair.getValue());
 

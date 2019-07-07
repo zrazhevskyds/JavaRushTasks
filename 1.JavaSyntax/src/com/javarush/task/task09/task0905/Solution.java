@@ -10,7 +10,7 @@ public class Solution {
     }
 
     public static int getStackTraceDeep() {
-        System.out.println(Thread.currentThread().getStackTrace().length);
+        System.out.println(Thread.currentThread().getStackTrace());
         return Thread.currentThread().getStackTrace().length;
     }
 }

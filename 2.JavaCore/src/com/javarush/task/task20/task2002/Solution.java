@@ -2,6 +2,7 @@ package com.javarush.task.task20.task2002;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /* 
@@ -9,31 +10,45 @@ import java.util.List;
 */
 public class Solution {
     public static void main(String[] args) {
-        //you can find your_file_name.tmp in your TMP directory or fix outputStream/inputStream according to your real file location
+        //you can find your_file_name.tmp in your TMP directory or adjust outputStream/inputStream according to your file's actual location
         //вы можете найти your_file_name.tmp в папке TMP или исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
         try {
-            File your_file_name = File.createTempFile("your_file_name", null);
-            OutputStream outputStream = new FileOutputStream(your_file_name);
-            InputStream inputStream = new FileInputStream(your_file_name);
+            File yourFile = File.createTempFile("D:\\test.txt", null);
+            OutputStream outputStream = new FileOutputStream("D:\\test.txt");
+            InputStream inputStream = new FileInputStream("D:\\test.txt");
+
+
 
             JavaRush javaRush = new JavaRush();
-            //initialize users field for the javaRush object here - инициализируйте поле users для объекта javaRush тут
+            User Denis = new User();
+            Denis.setFirstName("Denis");
+            Denis.setLastName("Zrazhevsky");
+            Denis.setBirthDate(new Date());
+            Denis.setMale(true);
+            Denis.setCountry(User.Country.UKRAINE);
+            User Denis1 = new User();
+            Denis1.setFirstName("Denis1");
+            Denis1.setLastName("Zrazhevsky1");
+            Denis1.setBirthDate(new Date());
+            Denis1.setMale(false);
+            javaRush.users.add(Denis);
+            javaRush.users.add(Denis1);
             javaRush.save(outputStream);
             outputStream.flush();
 
             JavaRush loadedObject = new JavaRush();
             loadedObject.load(inputStream);
-            //check here that javaRush object equals to loadedObject object - проверьте тут, что javaRush и loadedObject равны
+            //here check that the codeGym object is equal to the loadedObject object - проверьте тут, что javaRush и loadedObject равны
 
             outputStream.close();
             inputStream.close();
 
         } catch (IOException e) {
-            //e.printStackTrace();
-            System.out.println("Oops, something wrong with my file");
+            e.printStackTrace();
+            System.out.println("Oops, something is wrong with my file");
         } catch (Exception e) {
-            //e.printStackTrace();
-            System.out.println("Oops, something wrong with save/load method");
+            e.printStackTrace();
+            System.out.println("Oops, something is wrong with the save/load method");
         }
     }
 
@@ -41,11 +56,50 @@ public class Solution {
         public List<User> users = new ArrayList<>();
 
         public void save(OutputStream outputStream) throws Exception {
-            //implement this method - реализуйте этот метод
+            PrintWriter printW = new PrintWriter(outputStream);
+
+            if (users.size() == 0){
+                printW.println(0);
+
+            }else{
+                printW.println(users.size());
+                String country = null;
+                for (User user:
+                     users) {
+                    country = (user.getCountry() == null) ? null : user.getCountry().toString();
+                    String us = user.getFirstName() + "*" + user.getLastName() + "*" + user.getBirthDate().getTime() + "*" +
+                            user.isMale() + "*" + country;
+                    printW.println(us);
+                    printW.flush();
+                }
+
+            }
+            printW.close();
         }
 
         public void load(InputStream inputStream) throws Exception {
-            //implement this method - реализуйте этот метод
+            BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
+            int usercount = Integer.parseInt(bf.readLine());
+            User user = new User();
+            if (usercount > 0){
+                for (int i = 0; i < usercount; i++){
+                    String[] us = (bf.readLine()).split("\\*");
+                    user = new User();
+                    user.setFirstName(us[0]);
+                    user.setLastName(us[1]);
+                    user.setBirthDate(new Date(Long.parseLong(us[2])));
+                    user.setMale(Boolean.parseBoolean(us[3]));
+                    if (!us[4].contentEquals("null")) {
+                        //System.out.println(us[4]);
+                       user.setCountry(User.Country.valueOf(us[4]));
+
+                    }
+
+                    users.add(user);
+
+                }
+            }
+            bf.close();
         }
 
         @Override

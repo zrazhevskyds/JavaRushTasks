@@ -21,7 +21,7 @@ public class Solution {
         map.put("ирис","цветок");
         map.put("картофель","клубень");
 
-        for (Map.Entry<String, String> pair : map.entrySet()){
+        for (Map.Entry<String, String> pair: map.entrySet()){
             System.out.println(pair.getKey() + " - " + pair.getValue());
         }
 
