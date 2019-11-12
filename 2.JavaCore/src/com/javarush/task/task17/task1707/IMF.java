@@ -7,14 +7,11 @@ public class IMF {
 
     public  static IMF getFund() {
         synchronized (IMF.class) {
-            IMF localImf = imf;
-            if (localImf == null) {
 
-                if (imf == null)
+            if (imf == null) {
                     imf = new IMF();
             }
 
-        imf = localImf;
         return imf;
     }
     }

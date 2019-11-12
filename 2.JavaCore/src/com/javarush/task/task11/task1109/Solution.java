@@ -4,13 +4,16 @@ package com.javarush.task.task11.task1109;
 Как кошка с собакой
 */
 
+import java.util.Arrays;
+
 public class Solution {
     public static void main(String[] args) {
         Cat cat = new Cat("Vaska", 5);
         Dog dog = new Dog("Sharik", 4);
 
-        cat.isDogNear(dog);
-        dog.isCatNear(cat);
+        System.out.println(cat.isDogNear(dog));
+        System.out.println(dog.isCatNear(cat));
+
     }
 
     public static class Cat {

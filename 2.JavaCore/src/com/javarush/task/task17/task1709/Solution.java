@@ -20,13 +20,13 @@ public class Solution {
             while (proposal < 10) {
                 System.out.println("Сделано предложение №" + (thisProposal + 1));
                 proposal = ++thisProposal;
+
+
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }
     }
